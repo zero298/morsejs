@@ -1,74 +1,128 @@
-(function () {
-    "use strict";
+/*global define*/
+
+"use strict";
+
+// Support UMD
+(function (root, factory) {
+    if (typeof define === "function" && define.amd) {
+        // AMD
+        define([], factory);
+    } else if (typeof module === "object" && module.exports) {
+        // Node but not strict CommonJS
+        module.exports = factory();
+    } else {
+        // Browser
+        root.morsejs = factory();
+    }
+}(this, function () {
+    // Predefine our vars
+    var exports, signal, mcode;
 
     /**
      * Morse code module
-     * @module morse
+     * @module morsejs
      */
+    exports = {};
 
-        /**
-         * The value to use as the padding character
-         * @var {Number} PADD
-         */
-    var PADD = -1,
+    /**
+     * Enum for the signals sent by morse
+     * @readonly
+     * @enum {Number}
+     */
+    signal = {
+        /** Padding used between signals, characters and words */
+        PADD: -1,
+        /** A short signal code */
+        SHORT: 0,
+        /** A long signal code */
+        LONG: 1
+    };
 
-        /**
-         * The Value to use as the short character
-         * @var {Number} SHORT
-         */
-        SHORT = 0,
-
-        /**
-         * The Value to use as the long character
-         * @var {Number} LONG
-         */
-        LONG = 1,
-
-        /**
-         * Object that holds the translation values of letters and numbers
-         * @var {Object} chars
-         */
-        chars = {
-            "a": [SHORT, LONG],
-            "b": [LONG, SHORT, SHORT, SHORT],
-            "c": [LONG, SHORT, LONG, SHORT],
-            "d": [LONG, SHORT, SHORT],
-            "e": [SHORT],
-            "f": [SHORT, SHORT, LONG, SHORT],
-            "g": [LONG, LONG, SHORT],
-            "h": [SHORT, SHORT, SHORT, SHORT],
-            "i": [SHORT, SHORT],
-            "j": [SHORT, LONG, LONG, LONG],
-            "k": [LONG, SHORT, LONG],
-            "l": [SHORT, LONG, SHORT, SHORT],
-            "m": [LONG, LONG],
-            "n": [LONG, SHORT],
-            "o": [LONG, LONG, LONG],
-            "p": [SHORT, LONG, LONG, SHORT],
-            "q": [LONG, LONG, SHORT, LONG],
-            "r": [SHORT, LONG, SHORT],
-            "s": [SHORT, SHORT, SHORT],
-            "t": [LONG],
-            "u": [SHORT, SHORT, LONG],
-            "v": [SHORT, SHORT, LONG],
-            "w": [SHORT, LONG, LONG],
-            "x": [LONG, SHORT, SHORT, LONG],
-            "y": [LONG, SHORT, LONG, LONG],
-            "z": [LONG, LONG, SHORT, SHORT],
-            "1": [SHORT, LONG, LONG, LONG, LONG],
-            "2": [SHORT, SHORT, LONG, LONG, LONG],
-            "3": [SHORT, SHORT, SHORT, LONG, LONG],
-            "4": [SHORT, SHORT, SHORT, SHORT, LONG],
-            "5": [SHORT, SHORT, SHORT, SHORT, SHORT],
-            "6": [LONG, SHORT, SHORT, SHORT, SHORT],
-            "7": [LONG, LONG, SHORT, SHORT, SHORT],
-            "8": [LONG, LONG, LONG, SHORT, SHORT],
-            "9": [LONG, LONG, LONG, LONG, SHORT],
-            "0": [LONG, LONG, LONG, LONG, LONG],
-            "char": [PADD],
-            "pause": [PADD, PADD, PADD],
-            "space": [PADD, PADD, PADD, PADD, PADD, PADD, PADD]
-        };
+    /**
+     * Enums for the available letter codings used by morse
+     * @readonly
+     * @enum {Number[]}
+     */
+    mcode = {
+        /** Code for A */
+        "a": [signal.SHORT, signal.LONG],
+        /** Code for B */
+        "b": [signal.LONG, signal.SHORT, signal.SHORT, signal.SHORT],
+        /** Code for C */
+        "c": [signal.LONG, signal.SHORT, signal.LONG, signal.SHORT],
+        /** Code for D */
+        "d": [signal.LONG, signal.SHORT, signal.SHORT],
+        /** Code for E */
+        "e": [signal.SHORT],
+        /** Code for F */
+        "f": [signal.SHORT, signal.SHORT, signal.LONG, signal.SHORT],
+        /** Code for G */
+        "g": [signal.LONG, signal.LONG, signal.SHORT],
+        /** Code for H */
+        "h": [signal.SHORT, signal.SHORT, signal.SHORT, signal.SHORT],
+        /** Code for I */
+        "i": [signal.SHORT, signal.SHORT],
+        /** Code for J */
+        "j": [signal.SHORT, signal.LONG, signal.LONG, signal.LONG],
+        /** Code for K */
+        "k": [signal.LONG, signal.SHORT, signal.LONG],
+        /** Code for L */
+        "l": [signal.SHORT, signal.LONG, signal.SHORT, signal.SHORT],
+        /** Code for M */
+        "m": [signal.LONG, signal.LONG],
+        /** Code for N */
+        "n": [signal.LONG, signal.SHORT],
+        /** Code for O */
+        "o": [signal.LONG, signal.LONG, signal.LONG],
+        /** Code for P */
+        "p": [signal.SHORT, signal.LONG, signal.LONG, signal.SHORT],
+        /** Code for Q */
+        "q": [signal.LONG, signal.LONG, signal.SHORT, signal.LONG],
+        /** Code for R */
+        "r": [signal.SHORT, signal.LONG, signal.SHORT],
+        /** Code for S */
+        "s": [signal.SHORT, signal.SHORT, signal.SHORT],
+        /** Code for T */
+        "t": [signal.LONG],
+        /** Code for U */
+        "u": [signal.SHORT, signal.SHORT, signal.LONG],
+        /** Code for V */
+        "v": [signal.SHORT, signal.SHORT, signal.LONG],
+        /** Code for W */
+        "w": [signal.SHORT, signal.LONG, signal.LONG],
+        /** Code for X */
+        "x": [signal.LONG, signal.SHORT, signal.SHORT, signal.LONG],
+        /** Code for Y */
+        "y": [signal.LONG, signal.SHORT, signal.LONG, signal.LONG],
+        /** Code for Z */
+        "z": [signal.LONG, signal.LONG, signal.SHORT, signal.SHORT],
+        /** Code for 1 */
+        "1": [signal.SHORT, signal.LONG, signal.LONG, signal.LONG, signal.LONG],
+        /** Code for 2 */
+        "2": [signal.SHORT, signal.SHORT, signal.LONG, signal.LONG, signal.LONG],
+        /** Code for 3 */
+        "3": [signal.SHORT, signal.SHORT, signal.SHORT, signal.LONG, signal.LONG],
+        /** Code for 4 */
+        "4": [signal.SHORT, signal.SHORT, signal.SHORT, signal.SHORT, signal.LONG],
+        /** Code for 5 */
+        "5": [signal.SHORT, signal.SHORT, signal.SHORT, signal.SHORT, signal.SHORT],
+        /** Code for 6 */
+        "6": [signal.LONG, signal.SHORT, signal.SHORT, signal.SHORT, signal.SHORT],
+        /** Code for 7 */
+        "7": [signal.LONG, signal.LONG, signal.SHORT, signal.SHORT, signal.SHORT],
+        /** Code for 8 */
+        "8": [signal.LONG, signal.LONG, signal.LONG, signal.SHORT, signal.SHORT],
+        /** Code for 9 */
+        "9": [signal.LONG, signal.LONG, signal.LONG, signal.LONG, signal.SHORT],
+        /** Code for 0 */
+        "0": [signal.LONG, signal.LONG, signal.LONG, signal.LONG, signal.LONG],
+        /** Code for inter-character pause */
+        "char": [signal.PADD],
+        /** Code for character pause */
+        "pause": [signal.PADD, signal.PADD, signal.PADD],
+        /** Code for word pause */
+        "space": [signal.PADD, signal.PADD, signal.PADD, signal.PADD, signal.PADD, signal.PADD, signal.PADD]
+    };
 
     /**
      * Function to translate a string into a morse message
@@ -76,7 +130,7 @@
      * @param {String} message The message to translate
      * @returns {Number[]} An array of numbers symbolizing long/short
      */
-    module.exports.translate = function (message) {
+    exports.translate = function (message) {
         // Keep an array to hold the whole translated message
         var translated = [];
         // Make sure we were given a String
@@ -86,25 +140,25 @@
                 // Iterate each letter
                 Array.prototype.forEach.call(word, function (letter, wIndex, wArr) {
                     // Iterate each symbol of the letter
-                    chars[letter].forEach(function (symbol, cIndex, cArr) {
+                    mcode[letter].forEach(function (symbol, cIndex, cArr) {
                         // Push the current long/short symbol
                         translated.push(symbol);
                         // While we are in the middle of the symbol array
                         if (cIndex < (cArr.length - 1)) {
                             // Add a symbol separator
-                            translated = translated.concat(chars.char);
+                            translated = translated.concat(mcode.char);
                         }
                     });
                     // While we are in the middle of the letter array
                     if (wIndex < (wArr.length - 1)) {
                         // Add a letter separator
-                        translated = translated.concat(chars.pause);
+                        translated = translated.concat(mcode.pause);
                     }
                 });
                 // While we are in the middle of the word array
                 if (mIndex < (mArr.length - 1)) {
                     // Add a word separator
-                    translated = translated.concat(chars.space);
+                    translated = translated.concat(mcode.space);
                 }
             });
         } else {
@@ -114,4 +168,7 @@
         // Return our translated morse code message
         return translated;
     };
-}());
+
+    // Return our module
+    return exports;
+}));
