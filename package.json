@@ -8,6 +8,8 @@
   },
   "scripts": {
     "test": "node test/morsejs.js",
+    "lint": "jslint src/morsejs.js",
+    "doc": "jsdoc -c conf/jsdoc.json",
     "start": "node index.js"
   },
   "keywords": [
