@@ -1,10 +1,10 @@
 {
   "name": "morsejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Translate a string into Morse code",
   "main": "src/morsejs.js",
   "bin": {
-      "morsejs": "./bin/morsejs"
+    "morsejs": "./bin/morsejs"
   },
   "scripts": {
     "test": "node test/morsejs.js",
@@ -17,5 +17,16 @@
     "translation"
   ],
   "author": "Stephen K",
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zero298/morsejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zero298/morsejs/issues"
+  },
+  "homepage": "https://github.com/zero298/morsejs#readme"
 }
