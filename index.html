@@ -4,37 +4,10 @@
         <title>Morse Code</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            header, h1, p, legend, footer {
-                display: none;
-            }
-            fieldset {
-                border: 0;
-                margin: 0;
-                padding: 0;
-            }
-            input[type="text"]:required:focus {
-                outline-offset: 0;
-            }
-            input[type="text"]:required:valid {
-                outline: 2px solid #009933;
-            }
-            input[type="text"]:required:focus:invalid {
-                outline: 2px solid #ff3333;
-            }
-            svg {
-                height: 1em;
-                width: 100%;
-            }
-            svg circle {
-                fill: #00aa00;
-            }
-            svg line {
-                stroke: #00aa00;
-                stroke-width: 2;
-            }
-        </style>
+        <link rel="stylesheet" href="css/index.css" title="Standard">
+        <link rel="alternate stylesheet" href="css/mini_ui.css" title="Minimal UI">
         <script src="src/morsejs.js"></script>
+        <script src="js/index.js"></script>
     </head>
     <body>
         <header role="banner"><h1>Morse Translator</h1></header>
@@ -45,6 +18,7 @@
                 <form id="translationForm" action="" method="GET">
                     <fieldset>
                         <legend>Morse Translator</legend>
+                        <label for="translationText"><u>M</u>essage to translate</label>
                         <input 
                             id="translationText" 
                             name="translation_text" 
@@ -52,8 +26,13 @@
                             value=""
                             placeholder="Enter message" 
                             required="required"
-                            pattern="[a-zA-Z0-9]+"/>
-                        <input type="submit" value="Translate"/>
+                            autofocus="autofocus"
+                            accesskey="m"
+                            pattern="[ a-zA-Z0-9]+"/>
+                        <button
+                            type="submit" 
+                            value="Translate"
+                            accesskey="t"><u>T</u>ranslate</button>
                     </fieldset>
                 </form>
                 <div id="translationResult" role="log" aria-live="polite"></div>
@@ -62,54 +41,5 @@
             </article>
         </main>
         <footer role="contentinfo"><a href="https://github.com/zero298/morsejs">Find morsejs on GitHub</a></footer>
-        <script>
-            (function () {
-                var
-                        xmlNs = "http://www.w3.org/2000/svg",
-                        tForm = document.getElementById("translationForm"),
-                        tText = document.getElementById("translationText"),
-                        tResult = document.getElementById("translationResult"),
-                        mGraph = document.getElementById("morseDisplay");
-
-                function graphMorse(svgElement, message) {
-                    // Clear the svg
-                    while (svgElement.lastChild) {
-                        svgElement.removeChild(svgElement.lastChild);
-                    }
-                    // Add stuff to the svg
-                    message.forEach(function (el, index) {
-                        var newItem;
-                        if (el === 0) {
-                            newItem = document.createElementNS(xmlNs, "circle");
-                            newItem.setAttributeNS(null, "cx", ((16 * index) + 8));
-                            newItem.setAttributeNS(null, "cy", 8);
-                            newItem.setAttributeNS(null, "r", 4);
-                        }
-                        else if (el === 1) {
-                            newItem = document.createElementNS(xmlNs, "line");
-                            newItem.setAttribute("x1", ((16 * index) + 0));
-                            newItem.setAttribute("x2", ((16 * index) + 16));
-                            newItem.setAttribute("y1", 8);
-                            newItem.setAttribute("y2", 8);
-                        }
-                        if (newItem) {
-                            svgElement.appendChild(newItem);
-                        }
-                    });
-                }
-
-                tForm.addEventListener("submit", function (submitEvent) {
-                    try {
-                        var translatedMessage = morsejs.translate(tText.value);
-                        //tResult.innerHTML = translatedMessage;
-                        graphMorse(mGraph, translatedMessage);
-                    }
-                    catch (e) {
-                        tResult.innerHTML = "Please an alphanumeric message.";
-                    }
-                    submitEvent.preventDefault();
-                });
-            }());
-        </script>
     </body>
 </html>
