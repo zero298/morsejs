@@ -4,3 +4,4 @@
 
 A morse code translation library written in JavaScript
 
+[Working implementation of morsejs](http://zero298.github.io/morsejs/)
