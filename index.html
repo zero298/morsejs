@@ -18,21 +18,29 @@
                 <form id="translationForm" action="" method="GET">
                     <fieldset>
                         <legend>Morse Translator</legend>
-                        <label for="translationText"><u>M</u>essage to translate</label>
-                        <input 
-                            id="translationText" 
-                            name="translation_text" 
-                            type="text" 
-                            value=""
-                            placeholder="Enter message" 
-                            required="required"
-                            autofocus="autofocus"
-                            accesskey="m"
-                            pattern="[ a-zA-Z0-9]+"/>
-                        <button
-                            type="submit" 
-                            value="Translate"
-                            accesskey="t"><u>T</u>ranslate</button>
+                        <div>
+                            <label for="translationText"><u>M</u>essage to translate</label>
+                            <input 
+                                id="translationText" 
+                                name="translation_text" 
+                                type="text" 
+                                value=""
+                                placeholder="Enter message" 
+                                required="required"
+                                autofocus="autofocus"
+                                accesskey="m"
+                                pattern="[ a-zA-Z0-9]+"/>
+                        </div>
+                        <div>
+                            <label for="drawCheckbox"><u>D</u>raw</label>
+                            <input id="drawCheckbox" type="checkbox" accesskey="d" checked="checked">
+                            <label for="playCheckbox"><u>P</u>lay</label>
+                            <input id="playCheckbox" type="checkbox" accesskey="p" checked="checked">
+                            <button
+                                type="submit" 
+                                value="Translate"
+                                accesskey="t"><u>T</u>ranslate</button>
+                        </div>
                     </fieldset>
                 </form>
                 <div id="translationResult" role="log" aria-live="polite"></div>

@@ -1,5 +1,5 @@
 /*jslint browser:true*/
-/*global morsejs*/
+/*global morsejs, AudioContext*/
 
 "use strict";
 
@@ -10,8 +10,11 @@
             xmlNs = "http://www.w3.org/2000/svg",
             tForm = document.getElementById("translationForm"),
             tText = document.getElementById("translationText"),
+            dCbox = document.getElementById("drawCheckbox"),
+            pCbox = document.getElementById("playCheckbox"),
             tResult = document.getElementById("translationResult"),
-            mGraph = document.getElementById("morseDisplay");
+            mGraph = document.getElementById("morseDisplay"),
+            mAudio = new AudioContext();
 
         // Function to graph a message to an SVG
         function graphMorse(svgElement, message) {
@@ -49,13 +52,82 @@
             });
         }
 
+        // Function to play a morse message using the WebAudio API
+        function playMorse(actx, message) {
+            var
+                mIndex,
+                osc,
+                longDuration = 100,
+                shortDuration = (longDuration * 0.5);
+
+                // Function figure out how long a signal should play
+            function getSignalTime(signal) {
+                var timeDuration = 0;
+                switch (signal) {
+                case 0:
+                    timeDuration = shortDuration;
+                    break;
+                default:
+                    timeDuration = longDuration;
+                    break;
+                }
+                return timeDuration;
+            }
+
+            // Function to determine the strength of a signal
+            function getSignalStrength(signal) {
+                var strength = 0;
+                switch (signal) {
+                case 0:
+                case 1:
+                    strength = 500;
+                    break;
+                default:
+                    break;
+                }
+                return strength;
+            }
+
+            // Function to cause the morse message to play over audio
+            function transmitMessage(signal) {
+                osc.frequency.value = getSignalStrength(signal);
+                setTimeout(function () {
+                    if (mIndex < message.length) {
+                        transmitMessage(message[mIndex]);
+                        mIndex += 1;
+                    } else {
+                        osc.stop();
+                    }
+                }, getSignalTime(signal));
+            }
+
+            // Set our message index
+            mIndex = 0;
+
+            // Create a sound and start it
+            osc = actx.createOscillator();
+            osc.type = "sin";
+            osc.frequency.value = 0;
+            osc.connect(actx.destination);
+            osc.start();
+
+            // Start the transmission
+            transmitMessage(mIndex);
+        }
+
         // Add submit listener to the translation form
         tForm.addEventListener("submit", function (submitEvent) {
             try {
                 // Translate the message provided in the input
                 var translatedMessage = morsejs.translate(tText.value);
-                // Graph the message to the SVG
-                graphMorse(mGraph, translatedMessage);
+
+                if (dCbox.checked) {
+                    // Graph the message to the SVG
+                    graphMorse(mGraph, translatedMessage);
+                }
+                if (pCbox.checked) {
+                    playMorse(mAudio, translatedMessage);
+                }
             } catch (e) {
                 // Let the user know that they must only use letters or numbers
                 tResult.innerHTML = "Please an alphanumeric message.";
