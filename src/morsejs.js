@@ -1,4 +1,4 @@
-/*global define*/
+/*global define, module */
 
 "use strict";
 
@@ -26,6 +26,7 @@
 
     /**
      * Enum for the signals sent by morse
+     * @memberof module:morsejs
      * @readonly
      * @enum {Number}
      */
@@ -126,11 +127,12 @@
 
     /**
      * Function to translate a string into a morse message
+     * @memberof module:morsejs
      * @throws Given message must be a string
      * @param {String} message The message to translate
      * @returns {Number[]} An array of numbers symbolizing long/short
      */
-    exports.translate = function (message) {
+    function translate(message) {
         // Keep an array to hold the whole translated message
         var translated = [];
         // Make sure we were given a String
@@ -167,7 +169,11 @@
         }
         // Return our translated morse code message
         return translated;
-    };
+    }
+
+    // Export stuff
+    exports.signal = signal;
+    exports.translate = translate;
 
     // Return our module
     return exports;
