@@ -9,23 +9,22 @@ module.exports = function (config) {
         ],
         files: [
             "src/**/*.js",
-            "test/index.js"
+            "test/**/*.js"
         ],
         exclude: [
         ],
         reporters: [
-            "progress",
-            "coverage"
+            "progress"
         ],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
-        autoWatch: true,
+        autoWatch: false,
         browsers: [
             "Chrome",
             "Firefox",
             "PhantomJS"
         ],
-        singleRun: false
+        singleRun: true
     });
 };
