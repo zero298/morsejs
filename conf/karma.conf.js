@@ -9,7 +9,7 @@ module.exports = function (config) {
         ],
         files: [
             "src/**/*.js",
-            "test/**/*.js"
+            "test/index.js"
         ],
         exclude: [
         ],
