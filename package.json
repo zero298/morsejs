@@ -7,7 +7,7 @@
     "morsejs": "./bin/morsejs"
   },
   "scripts": {
-    "test": "node test/morsejs.js",
+    "test": "karma start conf/karma.conf.js --single-run --browsers PhantomJS",
     "lint": "jslint src/**/*.js",
     "doc": "jsdoc -c conf/jsdoc.json",
     "start": "node index.js"
@@ -28,5 +28,11 @@
   "bugs": {
     "url": "https://github.com/zero298/morsejs/issues"
   },
-  "homepage": "https://github.com/zero298/morsejs#readme"
+  "homepage": "https://github.com/zero298/morsejs#readme",
+  "devDependencies": {
+    "karma": "^0.13.9",
+    "karma-coverage": "^0.5.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1"
+  }
 }

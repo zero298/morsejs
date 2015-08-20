@@ -1,4 +1,4 @@
-/*global describe, it */
+/*global describe, it, expect */
 
 "use strict";
 
@@ -12,4 +12,14 @@ describe("Test SVG rendering", function () {
 
 describe("Test WebAudio plaing", function () {
     it("Checks that the message is played correctly");
+});
+
+describe("Passing test", function () {
+    it("Tests a passing condition", function () {
+        expect(true).toBe(true);
+    });
+
+    it("Tests a failing condition", function () {
+        expect(false).toBe(true);
+    });
 });
