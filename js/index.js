@@ -3,7 +3,7 @@
 
 "use strict";
 
-(function (morsejs) {
+(function (mj) {
     document.addEventListener("DOMContentLoaded", function () {
         // Get our elements
         var
@@ -27,14 +27,14 @@
                 // Variable to hold new SVG shape
                 var newItem;
                 // See if it is a short or long signal
-                if (el === 0) {
+                if (el === mj.signal.SHORT) {
                     // Make a dot
                     newItem = document.createElementNS(xmlNs, "circle");
                     newItem.setAttribute("cx", ((16 * index) + 8));
                     newItem.setAttribute("cy", "50%");
                     newItem.setAttribute("r", 4);
                     newItem.setAttribute("fill", "#333333");
-                } else if (el === 1) {
+                } else if (el === mj.signal.LONG) {
                     // Make a dash
                     newItem = document.createElementNS(xmlNs, "line");
                     newItem.setAttribute("x1", (16 * index));
@@ -64,7 +64,7 @@
             function getSignalTime(signal) {
                 var timeDuration = 0;
                 switch (signal) {
-                case 0:
+                case mj.signal.SHORT:
                     timeDuration = shortDuration;
                     break;
                 default:
@@ -78,8 +78,8 @@
             function getSignalStrength(signal) {
                 var strength = 0;
                 switch (signal) {
-                case 0:
-                case 1:
+                case mj.signal.SHORT:
+                case mj.signal.LONG:
                     strength = 500;
                     break;
                 default:
@@ -119,7 +119,7 @@
         tForm.addEventListener("submit", function (submitEvent) {
             try {
                 // Translate the message provided in the input
-                var translatedMessage = morsejs.translate(tText.value);
+                var translatedMessage = mj.translate(tText.value);
 
                 if (dCbox.checked) {
                     // Graph the message to the SVG
