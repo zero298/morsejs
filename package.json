@@ -1,14 +1,14 @@
 {
   "name": "morsejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Translate a string into Morse code",
   "main": "src/morsejs.js",
   "bin": {
     "morsejs": "./bin/morsejs"
   },
   "scripts": {
-    "test": "node test/morsejs.js",
-    "lint": "jslint src/morsejs.js",
+    "test": "karma start conf/karma.conf.js --single-run --browsers PhantomJS",
+    "lint": "jslint src/**/*.js",
     "doc": "jsdoc -c conf/jsdoc.json",
     "start": "node index.js"
   },
@@ -28,5 +28,10 @@
   "bugs": {
     "url": "https://github.com/zero298/morsejs/issues"
   },
-  "homepage": "https://github.com/zero298/morsejs#readme"
+  "homepage": "https://github.com/zero298/morsejs#readme",
+  "devDependencies": {
+    "karma": "^0.13.9",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1"
+  }
 }

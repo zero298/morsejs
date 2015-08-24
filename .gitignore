@@ -2,3 +2,5 @@
 /nbproject
 /doc/
 *.log
+/coverage/
+/node_modules/

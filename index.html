@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Morse Code</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/index.css" title="Standard">
+        <link rel="alternate stylesheet" href="css/mini_ui.css" title="Minimal UI">
+        <script src="src/morsejs.js"></script>
+        <script src="src/render/SVG.js"></script>
+        <script src="src/render/WebAudio.js"></script>
+        <script src="js/index.js"></script>
+    </head>
+    <body>
+        <header role="banner"><h1>Morse Translator</h1></header>
+        <main role="main">
+            <article role="article">
+                <h1>Morse Code</h1>
+                <p>You can translate morse code here!</p>
+                <form id="translationForm" action="" method="GET">
+                    <fieldset>
+                        <legend>Morse Translator</legend>
+                        <div>
+                            <label for="translationText"><u>M</u>essage to translate</label>
+                            <input 
+                                id="translationText" 
+                                name="translation_text" 
+                                type="text" 
+                                value=""
+                                placeholder="Enter message" 
+                                required="required"
+                                autofocus="autofocus"
+                                accesskey="m"
+                                pattern="[ a-zA-Z0-9]+"/>
+                        </div>
+                        <div>
+                            <label for="drawCheckbox"><u>D</u>raw</label>
+                            <input id="drawCheckbox" type="checkbox" accesskey="d" checked="checked">
+                            <label for="playCheckbox"><u>P</u>lay</label>
+                            <input id="playCheckbox" type="checkbox" accesskey="p" checked="checked">
+                            <button
+                                type="submit" 
+                                value="Translate"
+                                accesskey="t"><u>T</u>ranslate</button>
+                        </div>
+                    </fieldset>
+                </form>
+                <div id="translationResult" role="log" aria-live="polite"></div>
+                <svg id="morseDisplay">
+                </svg>
+            </article>
+        </main>
+        <footer role="contentinfo"><a href="https://github.com/zero298/morsejs">Find morsejs on GitHub</a></footer>
+    </body>
+</html>
