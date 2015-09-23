@@ -1,9 +1,13 @@
 /*jslint browser:true */
-/*global morsejs, morsejsRenderSVG, morsejsRenderWebAudio */
-
-"use strict";
+/*global morsejs, morsejsRenderSVG, morsejsRenderWebAudio, AudioContext */
 
 (function (mj, mrsvg, mrwa) {
+    "use strict";
+
+    // Normalize AudioContext for HTML5 vs Webkit
+    window.AudioContext = (window.AudioContext || window.webkitAudioContext);
+
+    // Wait for Document to load
     document.addEventListener("DOMContentLoaded", function () {
         // Get our elements
         var
@@ -12,8 +16,7 @@
             dCbox = document.getElementById("drawCheckbox"),
             pCbox = document.getElementById("playCheckbox"),
             tResult = document.getElementById("translationResult"),
-            mGraph = document.getElementById("morseDisplay"),
-            mAudio = new AudioContext();
+            mGraph = document.getElementById("morseDisplay");
 
         // Add submit listener to the translation form
         tForm.addEventListener("submit", function (submitEvent) {
@@ -26,7 +29,9 @@
                     mrsvg.graphMorse(mGraph, translatedMessage);
                 }
                 if (pCbox.checked) {
-                    mrwa.playMorse(mAudio, translatedMessage);
+                    if (AudioContext !== "undefined") {
+                        mrwa.playMorse(new AudioContext(), translatedMessage);
+                    }
                 }
             } catch (e) {
                 // Let the user know that they must only use letters or numbers
