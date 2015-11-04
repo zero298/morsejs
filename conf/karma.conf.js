@@ -13,9 +13,19 @@ module.exports = function (config) {
         ],
         exclude: [
         ],
+        preprocessors: {
+            "src/**/*.js": ["coverage"]
+        },
         reporters: [
-            "progress"
+            "progress",
+            "coverage",
         ],
+        coverageReporter: {
+            dir: "coverage",
+            reporters: [{
+                type: "text"
+            }]
+        },
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
