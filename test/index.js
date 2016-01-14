@@ -46,11 +46,3 @@ describe("Test morsejs translating", function () {
         }).toThrow();
     });
 });
-
-describe("Test SVG rendering", function () {
-    it("Checks svg structure of translated message");
-});
-
-describe("Test WebAudio plaing", function () {
-    it("Checks that the message is played correctly");
-});

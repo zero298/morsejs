@@ -15,7 +15,7 @@
         // Browser
         root.morsejs = factory();
     }
-}((typeof window === undefined ? window : undefined), function () {
+}(this, function () {
     "use strict";
 
     // Predefine our vars

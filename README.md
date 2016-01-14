@@ -58,20 +58,9 @@ If you just want to plainly translate a message, you can just use **translate**
 var message = morsejs.translate("hello world");
 ```
 
-However, there are also plugins in case you want to do something with the message.
+## Plugins
 
-#### SVG
+There are plugins that can use the output from morsejs to render it in different ways.
 
-You can render the message to an [Scalable Vector Graphic (SVG)](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) using the **morsejs/render/SVG** plugin.
-```javascript
-var mrsvg = require("morsejs/render/SVG");
-mrsvg.graphMorse(mGraph, translatedMessage);
-```
-
-#### WebAudio
-
-You can also play the message as a sound with [WebAudio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) using the **morsejs/render/WebAudio*** plugin.
-```javascript
-var mrwa = require("morsejs/render/WebAudio");
-mrwa.playMorse(mAudio, translatedMessage);
-```
+morsejs-render-svg
+morsejs-render-webaudio

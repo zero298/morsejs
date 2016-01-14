@@ -1,8 +1,8 @@
 {
   "name": "morsejs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Translate a string into Morse code",
-  "main": "src/morsejs.js",
+  "main": "src/morsejs",
   "bin": {
     "morsejs": "./bin/morsejs"
   },
@@ -30,11 +30,18 @@
   },
   "homepage": "https://github.com/zero298/morsejs#readme",
   "devDependencies": {
-    "jsdoc": "^3.3.3",
-    "jslint": "^0.9.3",
+    "istanbul": "^0.3.18",
+    "jasmine-core": "^2.3.4",
+    "jsdoc": "^3.4.0",
+    "jslint": "^0.9.6",
     "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.5.3",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^0.2.1"
+    "karma-phantomjs-launcher": "^0.2.1",
+    "phantomjs": "^1.9.18",
+    "deglobalify": "^0.2.0",
+    "deamdify": "^0.1.1"
   }
 }
