@@ -1,9 +1,10 @@
+/*jslint node:true browser:true*/
 /*global define, module */
-
-"use strict";
 
 // Support UMD
 (function (root, factory) {
+    "use strict";
+
     if (typeof define === "function" && define.amd) {
         // AMD
         define([], factory);
@@ -14,7 +15,9 @@
         // Browser
         root.morsejs = factory();
     }
-}(this, function () {
+}((typeof window === undefined ? window : undefined), function () {
+    "use strict";
+
     // Predefine our vars
     var exports, signal, mcode;
 
