@@ -1,6 +1,8 @@
 # morsejs
 
-[![Build Status](https://travis-ci.org/zero298/morsejs.svg?branch=master)](https://travis-ci.org/zero298/morsejs) [![Inline docs](http://inch-ci.org/github/zero298/morsejs.svg?branch=master)](http://inch-ci.org/github/zero298/morsejs)
+[![npm version](https://img.shields.io/npm/v/morsejs.svg)](https://www.npmjs.com/package/morsejs)
+[![Build Status](https://travis-ci.org/zero298/morsejs.svg?branch=master)](https://travis-ci.org/zero298/morsejs)
+[![Inline docs](http://inch-ci.org/github/zero298/morsejs.svg?branch=master)](http://inch-ci.org/github/zero298/morsejs)
 
 A morse code translation library written in JavaScript
 
