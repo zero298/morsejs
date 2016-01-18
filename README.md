@@ -62,5 +62,5 @@ var message = morsejs.translate("hello world");
 
 There are plugins that can use the output from morsejs to render it in different ways.
 
-morsejs-render-svg
-morsejs-render-webaudio
+ - [morsejs-render-svg](https://github.com/zero298/morsejs-render-svg)
+ - [morsejs-render-webaudio](https://github.com/zero298/morsejs-render-webaudio)
