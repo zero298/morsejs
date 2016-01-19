@@ -1,6 +1,6 @@
 {
   "name": "morsejs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Translate a string into Morse code",
   "main": "src/morsejs",
   "bin": {
@@ -19,7 +19,8 @@
   "author": "Stephen K",
   "license": "MIT",
   "directories": {
-    "test": "test"
+    "test": "test",
+    "man": "man"
   },
   "repository": {
     "type": "git",
