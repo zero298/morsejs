@@ -20,7 +20,7 @@
     "use strict";
 
     // Predefine our vars
-    var exports, signal, mcode;
+    var exports, signal, encoding, mcode;
 
     /**
      * Morse code module
@@ -41,6 +41,21 @@
         SHORT: 0,
         /** A long signal code */
         LONG: 1
+    };
+
+    /**
+     * Enum for encoding settings
+     * @memberof module:morsejs
+     * @readonly
+     * @enum {Number}
+     */
+    encoding = {
+        /** Default padded encoding */
+        PADDED: 1,
+        /** Run length encoding */
+        RLE: 2,
+        /** Dot dash encoding */
+        DOTDASH: 3
     };
 
     /**
@@ -130,53 +145,128 @@
     };
 
     /**
+     * Function to encode a message with padding included
+     * @memberof module:morsejs
+     * @inner
+     * @param {Number[]} message The morse message to encode
+     * @returns {Number[]} The padding encoded message
+     */
+    function encodePadded(message) {
+        // Array to store our encoded message
+        var translated = [];
+        // Make lower case, split into words, and iterate each word
+        message.toLowerCase().split(" ").forEach(function (word, mIndex, mArr) {
+            // Iterate each letter
+            Array.prototype.forEach.call(word, function (letter, wIndex, wArr) {
+                // Iterate each symbol of the letter
+                mcode[letter].forEach(function (symbol, cIndex, cArr) {
+                    // Push the current long/short symbol
+                    translated.push(symbol);
+                    // While we are in the middle of the symbol array
+                    if (cIndex < (cArr.length - 1)) {
+                        // Add a symbol separator
+                        translated = translated.concat(mcode.char);
+                    }
+                });
+                // While we are in the middle of the letter array
+                if (wIndex < (wArr.length - 1)) {
+                    // Add a letter separator
+                    translated = translated.concat(mcode.pause);
+                }
+            });
+            // While we are in the middle of the word array
+            if (mIndex < (mArr.length - 1)) {
+                // Add a word separator
+                translated = translated.concat(mcode.space);
+            }
+        });
+        // Return our padding encoded message
+        return translated;
+    }
+
+    /**
+     * Function to encode a message with run length encoding
+     * @memberof module:morsejs
+     * @inner
+     * @param {Number[]} message The morse message to encode
+     * @returns {String} The RLE encoded message
+     */
+    function encodeDotDash(message) {
+        var translated = "";
+        encodePadded(message).forEach(function (s) {
+            switch (s) {
+            case signal.SHORT:
+                translated += "-";
+                break;
+            case signal.LONG:
+                translated += "---";
+                break;
+            default:
+                translated += "_";
+                break;
+            }
+        });
+        return translated;
+    }
+
+    /**
+     * Function to encode a message with run length encoding
+     * @memberof module:morsejs
+     * @inner
+     * @param {Number[]} message The morse message to encode
+     * @returns {Number[]} The RLE encoded message
+     */
+    function encodeRLE(message) {
+        return message;
+    }
+
+    /**
      * Function to translate a string into a morse message
      * @memberof module:morsejs
      * @throws Given message must be a string
      * @param {String} message The message to translate
-     * @returns {Number[]} An array of numbers symbolizing long/short
+     * @param {Object} kwargs The translation settings
+     * @param {Number} kwargs.encoding The translation encoding setting
+     * @returns {Number[]|String} An array of numbers symbolizing long/short
      */
-    function translate(message) {
+    function translate(message, kwargs) {
         // Keep an array to hold the whole translated message
-        var translated = [];
+        var translated,
+            encodeOp = encoding.PADDED;
+
+        // Check encoding
+        if (typeof kwargs !== "undefined" && typeof kwargs.encoding !== "undefined") {
+            encodeOp = kwargs.encoding;
+        }
+
         // Make sure we were given a String
         if (typeof message === "string") {
-            // Make lower case, split into words, and iterate each word
-            message.toLowerCase().split(" ").forEach(function (word, mIndex, mArr) {
-                // Iterate each letter
-                Array.prototype.forEach.call(word, function (letter, wIndex, wArr) {
-                    // Iterate each symbol of the letter
-                    mcode[letter].forEach(function (symbol, cIndex, cArr) {
-                        // Push the current long/short symbol
-                        translated.push(symbol);
-                        // While we are in the middle of the symbol array
-                        if (cIndex < (cArr.length - 1)) {
-                            // Add a symbol separator
-                            translated = translated.concat(mcode.char);
-                        }
-                    });
-                    // While we are in the middle of the letter array
-                    if (wIndex < (wArr.length - 1)) {
-                        // Add a letter separator
-                        translated = translated.concat(mcode.pause);
-                    }
-                });
-                // While we are in the middle of the word array
-                if (mIndex < (mArr.length - 1)) {
-                    // Add a word separator
-                    translated = translated.concat(mcode.space);
-                }
-            });
+            // Check for compression
+            switch (encodeOp) {
+            case encoding.PADDED:
+                translated = encodePadded(message);
+                break;
+            case encoding.RLE:
+                translated = encodeRLE(message);
+                break;
+            case encoding.DOTDASH:
+                translated = encodeDotDash(message);
+                break;
+            default:
+                throw "Unsupported encoding type";
+            }
         } else {
             // Throw an exception saying as much
             throw "Message must be a string";
         }
+
         // Return our translated morse code message
         return translated;
     }
 
     // Export stuff
     exports.signal = signal;
+    exports.encoding = encoding;
     exports.translate = translate;
 
     // Return our module
