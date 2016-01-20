@@ -45,4 +45,10 @@ describe("Test morsejs translating", function () {
             morsejs.translate("!!");
         }).toThrow();
     });
+
+    it("Checks that morsejs throws an error with numerical parameter", function () {
+        expect(function () {
+            morsejs.translate(123);
+        }).toThrow();
+    });
 });
