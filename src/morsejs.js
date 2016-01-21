@@ -154,32 +154,52 @@
     function encodePadded(message) {
         // Array to store our encoded message
         var translated = [];
-        // Make lower case, split into words, and iterate each word
-        message.toLowerCase().split(" ").forEach(function (word, mIndex, mArr) {
+
+        // Function to iterate symbols and append their signal values and padding
+        function symbolIterator(symbol, cIndex, cArr) {
+            // Push the current long/short symbol
+            translated.push(symbol);
+
+            // While we are in the middle of the symbol array
+            if (cIndex < (cArr.length - 1)) {
+                // Add a symbol separator
+                translated = translated.concat(mcode.char);
+            }
+        }
+
+        // Function to iterate letters and append their symbols and padding
+        function letterIterator(letter, wIndex, wArr) {
+            // Iterate each symbol of the letter
+            mcode[letter].forEach(symbolIterator);
+
+            // While we are in the middle of the letter array
+            if (wIndex < (wArr.length - 1)) {
+                // Add a letter separator
+                translated = translated.concat(mcode.pause);
+            }
+        }
+
+        // Function to remove letters that we can't translate
+        function letterFilter(value) {
+            // Return whether or not we can
+            return mcode[value];
+        }
+
+        // Function to iterate words and append their letters and padding
+        function wordIterator(word, mIndex, mArr) {
             // Iterate each letter
-            Array.prototype.forEach.call(word, function (letter, wIndex, wArr) {
-                // Iterate each symbol of the letter
-                mcode[letter].forEach(function (symbol, cIndex, cArr) {
-                    // Push the current long/short symbol
-                    translated.push(symbol);
-                    // While we are in the middle of the symbol array
-                    if (cIndex < (cArr.length - 1)) {
-                        // Add a symbol separator
-                        translated = translated.concat(mcode.char);
-                    }
-                });
-                // While we are in the middle of the letter array
-                if (wIndex < (wArr.length - 1)) {
-                    // Add a letter separator
-                    translated = translated.concat(mcode.pause);
-                }
-            });
+            word.split("").filter(letterFilter).forEach(letterIterator);
+
             // While we are in the middle of the word array
             if (mIndex < (mArr.length - 1)) {
                 // Add a word separator
                 translated = translated.concat(mcode.space);
             }
-        });
+        }
+
+        // Make lower case, split into words, and iterate each word
+        message.toLowerCase().split(" ").forEach(wordIterator);
+
         // Return our padding encoded message
         return translated;
     }
@@ -192,21 +212,17 @@
      * @returns {String} The RLE encoded message
      */
     function encodeDotDash(message) {
-        var translated = "";
-        encodePadded(message).forEach(function (s) {
-            switch (s) {
+        // Reduce our message to a translated on/off graph
+        return encodePadded(message).reduce(function (prev, curr, index) {
+            switch (curr) {
             case signal.SHORT:
-                translated += "-";
-                break;
+                return prev + "-";
             case signal.LONG:
-                translated += "---";
-                break;
+                return prev + "---";
             default:
-                translated += "_";
-                break;
+                return prev + "_";
             }
-        });
-        return translated;
+        }, "");
     }
 
     /**

@@ -82,6 +82,8 @@ describe("Test morsejs translating", function () {
 
     it("Checks RLE encoding settings in translate", function () {
         var actual, expected;
+        
+        // TODO: Finish RLE encoding
 
         // Encode a single character
         actual = morsejs.translate("sos", {
@@ -93,7 +95,7 @@ describe("Test morsejs translating", function () {
             morsejs.signal.SHORT, 3
         ];
         expect(actual).toEqual(expected);
-        pending();
+        pending("Not implemented");
     });
 
     it("Checks dotDash encoding settings in translate", function () {
@@ -115,13 +117,16 @@ describe("Test morsejs translating", function () {
         }).toThrow();
     });
 
-    it("Checks that morsejs throws an error with invalid messages", function () {
-        expect(function () {
-            morsejs.translate("!!");
-        }).toThrow();
+    it("Checks that morsejs ignores unsupported characters", function () {
+        expect(morsejs.translate("hello world"))
+            .toEqual(morsejs.translate("h~e*l(l)o w[o/r>l-d"));
     });
 
     it("Checks that morsejs throws an error with numerical parameter", function () {
+        expect(function () {
+            morsejs.translate();
+        }).toThrow();
+        
         expect(function () {
             morsejs.translate(123);
         }).toThrow();
