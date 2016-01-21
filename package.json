@@ -9,7 +9,7 @@
   "scripts": {
     "test": "karma start conf/karma.conf.js --single-run --browsers PhantomJS",
     "lint": "jslint js/**/*.js src/**/*.js",
-    "doc": "jsdoc -c conf/jsdoc.json",
+    "doc": "jsdoc -p -c conf/jsdoc.json",
     "start": "node index.js"
   },
   "keywords": [

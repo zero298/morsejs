@@ -223,11 +223,12 @@
     /**
      * Function to translate a string into a morse message
      * @memberof module:morsejs
-     * @throws Given message must be a string
+     * @throws Message must be a string
+     * @throws Unsupported encoding type
      * @param {String} message The message to translate
-     * @param {Object} kwargs The translation settings
-     * @param {Number} kwargs.encoding The translation encoding setting
-     * @returns {Number[]|String} An array of numbers symbolizing long/short
+     * @param {Object} [kwargs] The translation settings
+     * @param {Number} [kwargs.encoding] The translation encoding setting
+     * @returns {Number[]|String} An array of numbers or a string containing the translated message
      */
     function translate(message, kwargs) {
         // Keep an array to hold the whole translated message
@@ -235,7 +236,7 @@
             encodeOp = encoding.PADDED;
 
         // Check encoding
-        if (typeof kwargs !== "undefined" && typeof kwargs.encoding !== "undefined") {
+        if (kwargs && (kwargs.hasOwnProperty("encoding"))) {
             encodeOp = kwargs.encoding;
         }
 
