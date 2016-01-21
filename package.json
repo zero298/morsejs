@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "karma start conf/karma.conf.js --single-run --browsers PhantomJS",
-    "lint": "jslint js/**/*.js src/**/*.js",
+    "lint": "jslint src/**/*.js test/**/*.js",
     "doc": "jsdoc -p -c conf/jsdoc.json",
     "start": "node index.js"
   },

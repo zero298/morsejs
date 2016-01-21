@@ -78,12 +78,12 @@ describe("Test morsejs translating", function () {
             P, P, P,
             S, P, S, P, S // s
         ];
+
+        expect(actual).toEqual(expected);
     });
 
     it("Checks RLE encoding settings in translate", function () {
         var actual, expected;
-        
-        // TODO: Finish RLE encoding
 
         // Encode a single character
         actual = morsejs.translate("sos", {
@@ -126,7 +126,7 @@ describe("Test morsejs translating", function () {
         expect(function () {
             morsejs.translate();
         }).toThrow();
-        
+
         expect(function () {
             morsejs.translate(123);
         }).toThrow();

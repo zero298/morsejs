@@ -213,7 +213,7 @@
      */
     function encodeDotDash(message) {
         // Reduce our message to a translated on/off graph
-        return encodePadded(message).reduce(function (prev, curr, index) {
+        return encodePadded(message).reduce(function (prev, curr) {
             switch (curr) {
             case signal.SHORT:
                 return prev + "-";
@@ -233,6 +233,7 @@
      * @returns {Number[]} The RLE encoded message
      */
     function encodeRLE(message) {
+        console.warn("RLE encoding is not yet implemented");
         return message;
     }
 
